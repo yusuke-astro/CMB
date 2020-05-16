@@ -36,8 +36,8 @@ I_lu = np.zeros(NPIX)
 vec = np.array([np.cos(np.radians(95)),np.sin(np.radians(95)),0])
 beta = np.array([np.cos(np.radians(45)),np.sin(np.radians(45)),0])
 
-day_sec = 60*60*24#1日の秒数
-year_sec = day_sec*365
+year_sec = 60*60*24#1日の秒数
+#year_sec = day_sec*365
 phi = []
 psi = []
 
@@ -72,6 +72,9 @@ pix_d = hp.vec2pix(NSIDE,Vect1deg[0],Vect1deg[1],Vect1deg[2])
 for i in range(year_sec):
     I_lu[pix_d[i]] += 1
 hp.mollview(I_lu)
+np.savetxt('np_savetxt.txt', I_lu)
+a = np.loadtxt('np_savetxt.txt')
+
 """
 Theta = np.array(Vect2deg[0])
 Phi = np.array(Vect2deg[1])
