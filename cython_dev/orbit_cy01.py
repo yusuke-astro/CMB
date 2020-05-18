@@ -5,9 +5,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import time
 import loop_func as lf
-from concurrent.futures import ThreadPoolExecutor
-from concurrent.futures import ProcessPoolExecutor
-from joblib import Parallel, delayed
+
 
 start = time.time()
 
@@ -43,12 +41,6 @@ def spin_prec(time):
 
     return np.array(Vect)
 
-def repack(NSIDE, times, pix):
-    I_lu = np.zeros(NPIX)
-    for i in range(times):
-        I_lu[pix[i]] += 1
-    return I_lu
-
 NSIDE = 256
 NPIX = hp.nside2npix(NSIDE)
 day = 60*60*24#1日の秒数
@@ -59,23 +51,18 @@ times = day
 time_array = np.arange(times+1)
 
 
-Vect1deg = spin_prec(time_array)
+Vect1deg = spin_prec(time_array)#
 #pix = hp.vec2pix(NSIDE,Vect1deg[0],Vect1deg[1],Vect1deg[2])
 pix = hp.vec2pix(NSIDE,Vect1deg[2],Vect1deg[0],Vect1deg[1])
-
-sub = Parallel(n_jobs=-1)( [delayed(proc)(i) for i in range(10000)] )
-total = sum(sub)
-
-
-#track = repack(NPIX, times+1, pix)
+map = lf.repack(NPIX, times+1, pix)
 #map = lf.get_map(NSIDE, times+1)
 #map = lf.get_map2(NSIDE, time_array)
 
-hp.mollview(track, title="Hit count map in Ecliptic coordinates", unit="Hit number")
-hp.graticule()
-
 elapsed_time = time.time() - start
 print ("計算時間:{0}".format(elapsed_time) + "[sec]")
+hp.mollview(map, title="Hit count map in Ecliptic coordinates", unit="Hit number")
+hp.graticule()
+
 #np.savetxt('np_savetxt04.txt', I_lu)
 #a = np.loadtxt('np_savetxt04.txt')
 

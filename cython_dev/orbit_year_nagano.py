@@ -52,11 +52,12 @@ pix = hp.vec2pix(NSIDE, vec[2], vec[0], vec[1])
 for i in range(time):
     I_lu[pix[i]] += 1
 
+elapsed_time = TIME.time() - start
+print ("計算時間:{0}".format(elapsed_time) + "[sec]")
 hp.mollview( I_lu,
             title="Hit count map in Ecliptic coordinates",
             unit="Hit number",
             norm="hist")
 
-elapsed_time = TIME.time() - start
-print ("計算時間:{0}".format(elapsed_time) + "[sec]")
+
 plt.show()

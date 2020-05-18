@@ -2,6 +2,7 @@ import cython
 import numpy as np
 import healpy as hp
 cimport numpy as cnp
+from joblib import Parallel, delayed
 
 
 cdef rotation(int time_array):
@@ -137,3 +138,16 @@ def repack(int NPIX, int times, cnp.ndarray pix):
   for i in range(times):
     I_lu[pix[i]] += 1
   return I_lu
+
+"""
+def repack_pararell(int NPIX, int times, cnp.ndarray pix):
+  cdef:
+    int i
+    cnp.ndarray I_lu
+  I_lu = np.zeros(NPIX)
+  I_lu[pix[i]] += Parallel(n_jobs=-1)( [delayed(pac)(i) for i in range(times)] )
+  return I_lu
+
+cdef pac():
+  return 1
+"""
