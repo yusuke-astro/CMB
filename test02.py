@@ -30,8 +30,8 @@ def rot_psi(Vect,U,psi):#U=beta
     vect_2 = mat_rot2.dot(Vect)
     return vect_2
 
-vec = np.array([np.cos(np.radians(95)),np.sin(np.radians(95)),0])
-beta = np.array([np.cos(np.radians(45)),np.sin(np.radians(45)),0])
+vec = np.array([np.cos(np.radians(90)),np.sin(np.radians(90)),0])
+beta = np.array([np.cos(np.radians(50)),np.sin(np.radians(50)),0])
 
 
 # params
@@ -46,8 +46,8 @@ Vect1deg=[[],[],[]]
 Vect2deg = [[], []]
 
 for t in range(day_sec):
-    psi.append(2*np.pi*t/600)#600=10分で１週
-    phi.append(2*np.pi*t/5760)#5760=96分でちk
+    psi.append(2*np.pi*t/1200)#600=10分で１週
+    phi.append(2*np.pi*t/11540)#5760=96分でちk
 
 
 
@@ -70,7 +70,10 @@ for i in range(day_sec):
 
 # making 3d figure object
 fig = plt.figure() # figureオブジェクトを作る
-ax = Axes3D(fig)
+#ax = Axes3D(fig)
+
+ax = fig.add_subplot(111, projection='3d')
+ax.plot(Vect1deg[0],Vect1deg[1],Vect1deg[2],"-")
 """
 for i in range(day_sec):
     # getting data
